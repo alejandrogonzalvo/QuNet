@@ -4,5 +4,9 @@ class Qubit:
     def __init__(self, id):
         self.id = id
 
-    def __str__(self) -> str:
-        return self.id
+    def __json__(self) -> dict:
+        return {
+            'qubit': {
+                'id': self.id
+            }
+        }

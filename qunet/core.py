@@ -2,6 +2,7 @@ from qunet.qubit import Qubit
 from qunet.gate import Gate
 import networkx as nx
 import matplotlib.pyplot as plt
+import json
 
 class Core:
     id: int = 0
@@ -9,6 +10,25 @@ class Core:
     edges: list[tuple[int, int]] = []
     gates: list[Gate] = []
 
+    def __init__(self, id: int, qubits: list[Qubit]=[], edges: list[tuple[int, int]]=[], gates: list[Gate]=[]):
+        self.id = id
+        self.qubits = qubits
+        self.edges = edges
+        self.gates = gates
+    
+    def __json__(self) -> dict:
+        return {
+            'core': {
+                'id': self.id,
+                'qubits': self.qubits,
+                'edges': self.edges,
+                'gates': self.gates
+            }
+        }
+    
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__json__(), indent=4)
+    
     def plot(self):
         G = nx.Graph()
         for qubit in self.qubits:
@@ -16,29 +36,9 @@ class Core:
         G.add_edges_from(Core.edges)
         nx.draw(G, with_labels=True)
         plt.show()
-
-    def get_qubit_ids(self) -> list[int]:
-        return [qubit.id for qubit in self.qubits]
-
-    def get_gate_ids(self) -> list[int]:
+    
+    def get_gate_ids(self):
         return [gate.id for gate in self.gates]
-
-
-# core1: Core = Core()
-
-# for i in range(R):
-#     core1.qubits.append(Qubit(i))
-
-# for qubit in core1.qubits:
-#     if qubit.id % M != M-1:
-#         core1.edges.append((qubit.id, qubit.id+1))
-#     if qubit.id % M != 0:
-#         core1.edges.append((qubit.id, qubit.id-1))
     
-#     if qubit.id < R-M:
-#         core1.edges.append((qubit.id, qubit.id+M))
-    
-#     if qubit.id >= M:
-#         core1.edges.append((qubit.id, qubit.id-M))
-
-# core1.plot()
+    def get_qubit_ids(self):
+        return [qubit.id for qubit in self.qubits]

@@ -7,6 +7,20 @@ class Network:
     cores: list[Core] = []
     edges: list[tuple[int, int]] = []
 
+    def __init__(self, id: int, cores: list[Core]=[], edges: list[tuple[int, int]]=[]):
+        self.id = id
+        self.cores = cores
+        self.edges = edges
+    
+    def __json__(self) -> dict:
+        return {
+            'network': {
+                'id': self.id,
+                'cores': self.cores,
+                'edges': self.edges
+            }
+        }
+
     def plot(self):
         G = nx.Graph()
         for core in self.cores:

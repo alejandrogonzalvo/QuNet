@@ -7,5 +7,11 @@ class Gate:
         self.error_rate = error_rate
         self.gate_time = gate_time
 
-    def __str__(self) -> str:
-        return self.id
+    def __json__(self) -> dict:
+        return {
+            'gate': {
+                'id': self.id,
+                'error_rate': self.error_rate,
+                'gate_time': self.gate_time
+            }
+        }

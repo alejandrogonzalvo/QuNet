@@ -1,6 +1,7 @@
 from qunet.core import Core
 import networkx as nx
 import matplotlib.pyplot as plt
+from copy import deepcopy
 
 class Network:
     id: int = 0
@@ -36,7 +37,7 @@ class Network:
         n : Network = Network(id)
         for i in range(total):
             core.id = i
-            n.cores.append(core)
+            n.cores.append(deepcopy(core))
 
             if i % x != 0:
                 n.edges.append((i-1, i))

@@ -1,3 +1,4 @@
+from qunet.network import Network
 from qunet.core import Core
 from qunet.qubit import Qubit
 from qunet.gate import Gate

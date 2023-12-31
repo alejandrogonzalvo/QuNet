@@ -26,14 +26,17 @@ class Core:
             }
         }
     
-    def to_json(self):
-        return json.dumps(self, default=lambda o: o.__json__(), indent=4)
-    
+    def add_qubit(self, q: Qubit) -> None:
+        if q in self.qubits:
+            raise Exception(f"qubit with ID={q.id} already exists in Core with ID={self.id}")
+
+        self.qubits.append(q)
+
     def plot(self):
         G = nx.Graph()
         for qubit in self.qubits:
             G.add_node(qubit.id)
-        G.add_edges_from(Core.edges)
+        G.add_edges_from(self.edges)
         nx.draw(G, with_labels=True)
         plt.show()
     
@@ -42,3 +45,18 @@ class Core:
     
     def get_qubit_ids(self):
         return [qubit.id for qubit in self.qubits]
+    
+    @staticmethod
+    def grid2D(id: int, x: int, y: int):
+        total: int = x*y
+        
+        c : Core = Core(id)
+        for i in range(total):
+            c.qubits.append(Qubit(i))
+
+            if i % x != 0:
+                c.edges.append((i-1, i))
+            if i >= x:
+                c.edges.append((i-x, i))
+        
+        return c

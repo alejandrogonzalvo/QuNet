@@ -25,6 +25,24 @@ class Network:
         G = nx.Graph()
         for core in self.cores:
             G.add_node(core.id)
-        G.add_edges_from(Network.edges)
+        G.add_edges_from(self.edges)
         nx.draw(G, with_labels=True)
         plt.show()
+
+    @staticmethod
+    def grid2D(id: int, core: Core, x: int, y: int):
+        total: int = x*y
+        
+        n : Network = Network(id)
+        for i in range(total):
+            core.id = i
+            n.cores.append(core)
+
+            if i % x != 0:
+                n.edges.append((i-1, i))
+            if i >= x:
+                n.edges.append((i-x, i))
+        
+        return n
+
+    

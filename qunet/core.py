@@ -10,8 +10,9 @@ class Core:
     edges: list[tuple[int, int]] = []
     gates: list[Gate] = []
 
-    def __init__(self, id: int, qubits: list[Qubit]=[], edges: list[tuple[int, int]]=[], gates: list[Gate]=[]):
-        self.id = id
+    def __init__(self, qubits: list[Qubit]=[], edges: list[tuple[int, int]]=[], gates: list[Gate]=[]):
+        self.id = Core.id
+        Core.id += 1
         self.qubits = qubits
         self.edges = edges
         self.gates = gates
@@ -47,12 +48,12 @@ class Core:
         return [qubit.id for qubit in self.qubits]
     
     @staticmethod
-    def grid2D(id: int, x: int, y: int):
+    def grid2D(x: int, y: int):
         total: int = x*y
         
-        c : Core = Core(id)
+        c : Core = Core()
         for i in range(total):
-            c.qubits.append(Qubit(i))
+            c.qubits.append(Qubit())
 
             if i % x != 0:
                 c.edges.append((i-1, i))

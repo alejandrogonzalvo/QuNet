@@ -8,8 +8,9 @@ class Network:
     cores: list[Core] = []
     edges: list[tuple[int, int]] = []
 
-    def __init__(self, id: int, cores: list[Core]=[], edges: list[tuple[int, int]]=[]):
-        self.id = id
+    def __init__(self, cores: list[Core]=[], edges: list[tuple[int, int]]=[]):
+        self.id = Network.id
+        Network.id += 1
         self.cores = cores
         self.edges = edges
     
@@ -31,13 +32,12 @@ class Network:
         plt.show()
 
     @staticmethod
-    def grid2D(id: int, core: Core, x: int, y: int):
+    def grid2D(core: Core, x: int, y: int):
         total: int = x*y
         
-        n : Network = Network(id)
+        n : Network = Network()
         for i in range(total):
-            core.id = i
-            n.cores.append(deepcopy(core))
+            n.cores.append(Core(deepcopy(core.qubits), deepcopy(core.edges), deepcopy(core.gates)))
 
             if i % x != 0:
                 n.edges.append((i-1, i))

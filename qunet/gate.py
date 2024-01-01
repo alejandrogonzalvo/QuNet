@@ -4,6 +4,9 @@ class Gate:
     gate_time: float = 0.0
 
     def __init__(self, error_rate, gate_time):
+        self.id = Gate.id
+        Gate.id += 1
+        
         self.error_rate = error_rate
         self.gate_time = gate_time
 

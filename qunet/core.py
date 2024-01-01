@@ -3,6 +3,7 @@ from qunet.gate import Gate
 import networkx as nx
 import matplotlib.pyplot as plt
 import json
+import qunet.id_manager as id_manager
 
 class Core:
     id: int = 0
@@ -11,8 +12,8 @@ class Core:
     gates: list[Gate] = []
 
     def __init__(self, qubits: list[Qubit]=[], edges: list[tuple[int, int]]=[], gates: list[Gate]=[]):
-        self.id = Core.id
-        Core.id += 1
+        self.id = id_manager._core_id
+        id_manager._core_id += 1
         self.qubits = qubits
         self.edges = edges
         self.gates = gates
@@ -53,7 +54,7 @@ class Core:
         
         c : Core = Core()
         for i in range(total):
-            c.qubits.append(Qubit())
+            c.add_qubit(Qubit())
 
             if i % x != 0:
                 c.edges.append((i-1, i))

@@ -1,4 +1,6 @@
 from qunet.core import Core
+import qunet.id_manager as id_manager
+
 import networkx as nx
 import matplotlib.pyplot as plt
 from copy import deepcopy
@@ -9,8 +11,8 @@ class Network:
     edges: list[tuple[int, int]] = []
 
     def __init__(self, cores: list[Core]=[], edges: list[tuple[int, int]]=[]):
-        self.id = Network.id
-        Network.id += 1
+        self.id = id_manager._network_id
+        id_manager._network_id += 1
         self.cores = cores
         self.edges = edges
     
@@ -22,6 +24,12 @@ class Network:
                 'edges': self.edges
             }
         }
+    
+    def add_core(self, c: Core) -> None:
+        if c in self.cores:
+            raise Exception(f"core with ID={c.id} already exists in Network with ID={self.id}")
+
+        self.cores.append(c)
 
     def plot(self):
         G = nx.Graph()
@@ -36,8 +44,9 @@ class Network:
         total: int = x*y
         
         n : Network = Network()
-        for i in range(total):
-            n.cores.append(Core(deepcopy(core.qubits), deepcopy(core.edges), deepcopy(core.gates)))
+        n.add_core(core)
+        for i in range(1, total):
+            n.add_core(Core(deepcopy(core.qubits), deepcopy(core.edges), deepcopy(core.gates)))
 
             if i % x != 0:
                 n.edges.append((i-1, i))

@@ -21,10 +21,12 @@ class Network:
             'network': {
                 'id': self.id,
                 'cores': self.cores,
-                'edges': self.edges
+                'edges': self._get_edges()
             }
         }
     
+    def _get_edges(self) -> list[tuple[int, int]]:
+        return [(edge[0].id, edge[1].id) for edge in self.edges]
     
     def add_core(self, c: Core) -> int:
         if c in self.cores:

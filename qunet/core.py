@@ -24,7 +24,7 @@ class Core:
             'core': {
                 'id': self.id,
                 'qubits': self.qubits,
-                'edges': self.edges,
+                'edges': self._get_edges(),
                 'gates': self.gates
             }
         }
